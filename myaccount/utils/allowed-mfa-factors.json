@@ -1,0 +1,44 @@
+[
+    {
+      "type": "push",
+      "description": "Push Notification",
+      "factor": "push-notification",
+      "name": "push-notification"
+    },
+    {
+      "type": "totp",
+      "description": "One Time Password",
+      "factor": "otp",
+      "name": "otp"
+    },
+    {
+      "type":"sms",
+      "description": "SMS",
+      "factor": "phone",
+      "name": "sms"
+    },
+    {
+      "type": "recovery-code",
+      "description": "Recovery Code",
+      "factor": "recovery-code",
+      "name": "recovery-code"
+    },
+    {
+      "type": "webauthn",
+      "description": "WebAuthn with FIDO Security Keys",
+      "factor": "webauthn-roaming",
+      "name": "webauthn-roaming"
+    },
+    {
+      "type": "webauthn-platform",
+      "description": "WebAuhn With FIDO Device Biometrics",
+      "factor": "webauthn-platform",
+      "name": "webauthn-platform"
+    },
+    {
+      "type": "email",
+      "description": "Email MFA",
+      "factor": "email",
+      "name": "email"
+    }
+  ]
