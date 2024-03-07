@@ -35,8 +35,10 @@ async function getAuthenticatorsForUser (id) {
 async function deleteAuthenticatorById (id, authentication_method_id) {
     try {
         var response = await management.users.deleteAuthenticationMethodById({id, authentication_method_id});
+        console.log(`Deleting authenticator response: ${response}`);
         return response
     } catch (err) {
+        console.error(`Deleting authenticator error response: ${err}`);
         return err;
     }
 }
