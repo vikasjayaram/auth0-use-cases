@@ -89,9 +89,15 @@ router.get('/removeFactor/:id', requiresAuth(), async function (req, res) {
   try {
     console.log(req.oidc.user);
     if (req.oidc.user?.factor_id) {
+      console.log(`Deleting authenticator_id ${req.oidc.user?.factor_id}`);
       await mfaHelper.deleteAuthenticatorById(req.oidc.user?.sub, req.params.id);
     }
-    return res.redirect('/login');
+    return res.oidc.login({
+      returnTo: `/profile`,
+      authorizationParams: {
+        redirect_uri: 'http://localhost:3000/callback',
+      }
+    })
   } catch (error) {
     res.render('error', {
       message: error.message,
@@ -105,6 +111,7 @@ router.get('/factor/delete/:id', requiresAuth(), async function (req, res) {
     console.log(req.oidc.user?.sub, req.params.id);
     //await mfaHelper.deleteAuthenticatorById(req.oidc.user?.sub, req.params.id);
     //return res.redirect('/profile');
+
     return res.oidc.login({
       returnTo: `/removeFactor/${req.params.id}`,
       authorizationParams: {
@@ -112,8 +119,9 @@ router.get('/factor/delete/:id', requiresAuth(), async function (req, res) {
         acr_values: "http://schemas.openid.net/pape/policies/2007/06/multi-factor",
         factor_id: req.params.id,
         factor_action: 'remove'
-      },
+      }
     })
+
   } catch (error) {
     console.error(error);
     res.render('error', {
