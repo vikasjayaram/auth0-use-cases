@@ -1,6 +1,6 @@
 [
     {
-      "type": "push",
+      "type": "guardian",
       "description": "Push Notification",
       "factor": "push-notification",
       "name": "push-notification"
@@ -12,7 +12,7 @@
       "name": "otp"
     },
     {
-      "type":"sms",
+      "type":"phone",
       "description": "SMS",
       "factor": "phone",
       "name": "sms"
