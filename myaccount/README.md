@@ -49,9 +49,21 @@ npm start
 
 The sample app will be served at `localhost:3000`.
 
+## Features
+- Update name, given_name, given_name, nickname, profile
+- Change Email
+- Change Password
+- Manage MFA Factors
+
+## TODO
+
+[] Add post login actions to support progressive mfa enrolment 
+[] Add post login action for change email flow
+[] Add password reset / post challenge action to challenge for MFA before resetting the password.
+
 ## Support + Feedback
 
-Please use the [Issues queue](https://github.com/auth0-samples/auth0-express-webapp-sample/issues) in this repo for questions and feedback.
+Please use the [Issues queue](https://github.com/vikasjayaram/auth0-use-cases/issues) in this repo for questions and feedback.
 
 ## Vulnerability Reporting
 
