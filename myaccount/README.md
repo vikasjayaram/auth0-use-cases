@@ -67,10 +67,10 @@ The sample app will be served at `localhost:3000`.
 
 ## TODO
 
-- [X] Add post login actions to support progressive mfa enrolment 
-- [X] Add post login action for change email flow
-- [X] Add password reset / post challenge action to challenge for MFA before resetting the password.
-- [ ] Add Session Management Section.
+[] Add post login actions to support progressive mfa enrolment 
+[] Add post login action for change email flow
+[] Add password reset / post challenge action to challenge for MFA before resetting the password.
+
 ## Support + Feedback
 
 Please use the [Issues queue](https://github.com/vikasjayaram/auth0-use-cases/issues) in this repo for questions and feedback.
