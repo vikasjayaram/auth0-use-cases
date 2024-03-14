@@ -1,4 +1,4 @@
-# Express OpenID Connect Webapp Sample
+# Express OpenID Connect Webapp for My Account
 
 This sample demonstrates authentication for an Express Node.js app. The sample quickly shows how to log in, log out, and view profile information of the logged-in user and manage the end users MFA Factors.
 
@@ -20,14 +20,28 @@ npm install
 - `CLIENT_ID` - your Auth0 application client id
 - `ISSUER_BASE_URL` - absolute URL to your Auth0 application domain (ie: `https://accountName.auth0.com`)
 - `SECRET` - a randomly rengerated string. You can generate one on the command line with the following `openssl rand -hex 32`
-- `DOMAIN` - your Auth0 domain
+- `DOMAIN` - your Auth0 Custom Domain
+- `CANONICA_DOMAIN` - your Auth0 domain
 - `CLIENT_SECRET` - your Auth0 Machine To Machine `client_secret` authorized to access the management api
 
 ```bash
 mv .env.example .env
 ```
 
-3. Run the sample app:
+3. Required Management API scopes for `CLIENT_ID`
+
+```bash
+    "update:users",
+    "create:user_tickets",
+    "read:guardian_factors",
+    "update:guardian_factors",
+    "read:guardian_enrollments",
+    "delete:guardian_enrollments",
+    "read:authentication_methods",
+    "delete:authentication_methods"
+```
+
+4. Run the sample app:
 
 ```bash
 npm start
