@@ -3,7 +3,7 @@ const ManagementClient = require("auth0").ManagementClient;
 // Set up Auth0 configuration
 const authConfig = {
     domain: process.env.DOMAIN,
-    audience: `${process.env.DOMAIN}/api/v2`,
+    audience: `https://${process.env.CANONICA_DOMAIN}/api/v2/`,
     clientId: process.env.CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET
 };
@@ -13,7 +13,8 @@ const authConfig = {
 const management = new ManagementClient({
     domain: authConfig.domain,
     clientId: authConfig.clientId,
-    clientSecret: authConfig.clientSecret
+    clientSecret: authConfig.clientSecret,
+    audience: authConfig.audience
 });
 
 async function getFactorsForTenant() {
@@ -52,9 +53,30 @@ async function generateRecoveryCode (id, authentication_method_id) {
     }
 }
 
+async function generatePasswordChangeTicket (user_id, client_id, result_url) {
+    try {
+        // result_url is only available in classic
+        var response = await management.createPasswordChangeTicket({user_id, client_id});
+        return response
+    } catch (err) {
+        return err;
+    }
+}
+
+async function updateUser (id, data) {
+    try {
+        console.log(data);
+        return await management.users.update({ id: id }, data);
+    } catch (err) {
+        console.log(err);
+        return err;
+    }
+}
 module.exports = {
     getFactorsForTenant,
     getAuthenticatorsForUser,
     deleteAuthenticatorById,
-    generateRecoveryCode
+    generateRecoveryCode,
+    generatePasswordChangeTicket,
+    updateUser
 }
