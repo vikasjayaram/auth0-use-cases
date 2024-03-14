@@ -57,9 +57,9 @@ The sample app will be served at `localhost:3000`.
 
 ## TODO
 
-[] Add post login actions to support progressive mfa enrolment 
-[] Add post login action for change email flow
-[] Add password reset / post challenge action to challenge for MFA before resetting the password.
+- [ ] Add post login actions to support progressive mfa enrolment 
+- [ ] Add post login action for change email flow
+- [ ] Add password reset / post challenge action to challenge for MFA before resetting the password.
 
 ## Support + Feedback
 
