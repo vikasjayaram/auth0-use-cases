@@ -1,130 +1,204 @@
 <%- include('partials/header') -%>
+  <!-- component -->
+  <div class="bg-white min-h-screen pt-2 font-sans my-16">
+    <div class="container mx-auto">
+      <div class="inputs w-full max-w-2xl p-6 mx-auto">
+        <h1 class="text-4xl text-gray-900">Your Profile: <%= userInfo.name %></h1>
+        <br/>
+        <% if (showMfaWarning) { %>
+          <div class="flex items-center p-4 mb-4 text-sm text-yellow-800 border border-yellow-300 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300 dark:border-yellow-800" role="alert">
+            <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+            </svg>
+            <span class="sr-only"> Warning</span>
+            <div>
+              <span class="font-medium">&nbsp;Notice!</span> Add Multi-Factor Authentication to improve the security of your account.
+            </div>
+          </div>      
+        <% } %>
+        <form class="mt-6 pt-4" method="POST" action="/account/update">
+          <div class='flex flex-wrap -mx-3 mb-6'>
+            <div class="personal w-full pt-4 mx-auto">
+              <h2 class="text-2xl text-gray-900 px-3">Personal info:</h2>
+              <div class="flex items-center justify-between mt-4">
+                <div class='w-full md:w-1/2 px-3 mb-6'>
+                  <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>first name /
+                    given name</label>
+                  <input
+                    class='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500'
+                    type='text' name="given_name" value="<%= userInfo.given_name %>" required>
+                </div>
+                <div class='w-full md:w-1/2 px-3 mb-6'>
+                  <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>last name /
+                    family name</label>
+                  <input
+                    class='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500'
+                    type='text' name="family_name" value="<%= userInfo.family_name %>" required>
+                </div>
+              </div>
+              <div class='w-full md:w-full px-3 mb-6'>
+                <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+                  for='grid-text-1'>nickname</label>
+                <input
+                  class='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500'
+                  id='grid-text-1' type='text' name="nickname" value="<%= userInfo.nickname %>">
+              </div>
+              <div class='w-full md:w-full px-3 mb-6'>
+                <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+                  for='grid-text-1'>picture</label>
+                <input
+                  class='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500'
+                  id='grid-text-1' type='text' name="picture" value="<%= userInfo.picture %>">
+                <br/>
+                <img class="rounded-full" src="<%= userInfo.picture %>">
+              </div>
 
-  <h1 class="text-4xl mb-4">Welcome <%= user.nickname %>
-  </h1>
+              <div class="flex justify-end">
+                <button
+                  class="appearance-none uppercase bg-gray-200 text-gray-900 px-2 py-1 shadow-sm border border-gray-400 rounded-md mr-3"
+                  type="submit">save changes</button>
+              </div>
+              <br />
+              <br />
+              <div class='w-full md:w-full px-3 mb-6'>
+                <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+                  for='grid-text-1'>email address</label>
+                <input
+                  class='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500'
+                  id='grid-text-1' type='text' placeholder='Enter email' value="<%= user.email %>" readonly>
+                <br />
+                <a href="/account/change_email"
+                  class="appearance-none uppercase bg-gray-200 text-gray-900 px-2 py-1 shadow-sm border border-gray-400 rounded-md ">change
+                  your email</a>
+              </div>
+              <div class='w-full md:w-full px-3 mb-6'>
+                <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>password</label>
+                <a href="/account/change_password"
+                  class="appearance-none uppercase bg-gray-200 text-gray-900 px-2 py-1 shadow-sm border border-gray-400 rounded-md ">change
+                  your password</a>
+              </div>
+            </div>
+          </div>
+        </form>
+        <br/>
+        <div class='flex flex-wrap -mx-3 mb-6'>
+          <div class="personal w-full pt-4">
+            <h2 class="text-2xl text-gray-900">Multi-Factor Authentication:</h2>
+            <div class="flex justify-end">
+              <a href="/factor/add/"
+                class="appearance-none hidden bg-indigo-600 text-white px-2 py-1 shadow-sm border border-gray-400 rounded-md mr-3">Add
+                a Fatcor</a>
+            </div>
+            <br />
+            <div class="overflow-x-auto">
+              <table class="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
+                <thead class="ltr:text-left rtl:text-right">
+                  <tr>
+                  </tr>
+                </thead>
 
-  <% if (user.picture) { %>
-    <img class="block py-3" src="<%= user.picture %>" width="300">
-    <% } %>
-
-      <p class="py-3">
-        This is the content of <code class="bg-gray-200">req.user</code>.<br>
-        <strong>Note:</strong> <code class="bg-gray-200">_raw</code> and <code class="bg-gray-200">_json</code>
-        properties have been omitted.
-      </p>
-
-      <pre class="block bg-gray-300 p-4 text-sm overflow-scroll"><%= userProfile %></pre>
-      <br />
-      <hr />
-      <div class="grid gap-4 grid-cols-2">
-        <h2 class="inline-block text-4xl mb-4">Manage Multifactor Authentication
-        </h2>
-        <div class="px-4 py-4">
-          <a href="/factor/add/"
-          class="rounded bg-indigo-600 py-4 py-2 px-8 font-medium text-white hover:bg-indigo-700 float-right">
-          Enroll In MFA Factors
-        </a>
-        </div>
-
-      </div>
-      <div>
-      </div>
-
-      <!-- <p><%= JSON.stringify(allowedMfaFactor) %></p> -->
-      <div class="overflow-x-auto">
-        <table class="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
-          <thead class="ltr:text-left rtl:text-right">
-            <tr>
-            </tr>
-          </thead>
-
-          <tbody class="divide-y divide-gray-200">
-            <% for (var i=0; i < allowedMfaFactor.length; i++) { %>
-              <% if (allowedMfaFactor[i].name!=='email' && allowedMfaFactor[i].enabled===true ) { %>
-                <tr>
-                  <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                    <%= allowedMfaFactor[i].description %>
-                  </td>
-                  <% if(allowedMfaFactor[i].id && allowedMfaFactor[i].name !=='recovery-code' ) { %>
-                    <td class="whitespace-nowrap px-4 py-2 text-gray-700">Enrolled using <%=
-                        allowedMfaFactor[i].type.toUpperCase() %>
-                    </td>
-                    <td class="whitespace-nowrap px-4 py-2">
-                      <a id="<%= allowedMfaFactor[i].name %>" href="/factor/delete/<%- allowedMfaFactor[i].id %>"
-                        class="inline-block rounded bg-red-600 px-4 py-2 text-xs font-medium text-white hover:bg-indigo-700">
-                        Remove
-                      </a>
-                    </td>
-                    <% } else if(allowedMfaFactor[i].id && allowedMfaFactor[i].type==='recovery-code' ) { %>
-                      <td class="whitespace-nowrap px-4 py-2 text-gray-700">
-                        <%= allowedMfaFactor[i].name %>
-                      </td>
-                      <td class="whitespace-nowrap px-4 py-2">
-                        <button id="<%= allowedMfaFactor[i].name %>"
-                          onclick="javascript:regerateRecoveryCode('<%- allowedMfaFactor[i].id %>');"
-                          class="inline-block rounded bg-orange-600 px-4 py-2 text-xs font-medium text-white hover:bg-indigo-700">
-                          Regerate Code
-                        </button>
-                      </td>
-                      <% } else { %>
-                        <td class="whitespace-nowrap px-4 py-2 text-gray-700">Not Enrolled</td>
-                        <td class="whitespace-nowrap px-4 py-2">
-                          <a id="<%= allowedMfaFactor[i].name %>" href="/factor/add/<%- allowedMfaFactor[i].factor %>"
-                            class="inline-block rounded bg-indigo-600 px-4 py-2 text-xs font-medium text-white hover:bg-indigo-700">
-                            Add
-                          </a>
+                <tbody class="divide-y divide-gray-200">
+                  <% for (var i=0; i < allowedMfaFactor.length; i++) { %>
+                    <% if (allowedMfaFactor[i].name!=='email' && allowedMfaFactor[i].enabled===true ) { %>
+                      <tr>
+                        <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                          <%= allowedMfaFactor[i].description %>
                         </td>
+                        <% if(allowedMfaFactor[i].id && allowedMfaFactor[i].name !=='recovery-code' ) { %>
+                          <td class="whitespace-nowrap px-4 py-2 text-gray-700">Enrolled using <%=
+                              allowedMfaFactor[i].type.toUpperCase() %>
+                          </td>
+                          <td class="whitespace-nowrap px-4 py-2">
+                            <a id="<%= allowedMfaFactor[i].name %>" href="/factor/delete/<%- allowedMfaFactor[i].id %>"
+                              class="inline-block rounded bg-red-600 px-4 py-2 text-xs font-medium text-white hover:bg-indigo-700">
+                              Remove
+                            </a>
+                          </td>
+                          <% } else if(allowedMfaFactor[i].id && allowedMfaFactor[i].type==='recovery-code' ) { %>
+                            <td class="whitespace-nowrap px-4 py-2 text-gray-700">
+                              <%= allowedMfaFactor[i].name %>
+                            </td>
+                            <td class="whitespace-nowrap px-4 py-2">
+                              <button id="<%= allowedMfaFactor[i].name %>"
+                                onclick="javascript:regerateRecoveryCode('<%- allowedMfaFactor[i].id %>');"
+                                class="inline-block rounded bg-orange-600 px-4 py-2 text-xs font-medium text-white hover:bg-indigo-700">
+                                Regerate Code
+                              </button>
+                            </td>
+                            <% } else { %>
+                              <td class="whitespace-nowrap px-4 py-2 text-gray-700">Not Enrolled</td>
+                              <td class="whitespace-nowrap px-4 py-2">
+                                <a id="<%= allowedMfaFactor[i].name %>"
+                                  href="/factor/add/<%- allowedMfaFactor[i].factor %>"
+                                  class="inline-block rounded bg-indigo-600 px-4 py-2 text-xs font-medium text-white hover:bg-indigo-700">
+                                  Add
+                                </a>
+                              </td>
+                              <% } %>
+                      </tr>
+                      <% } %>
                         <% } %>
-                </tr>
-                <% } %>
-                  <% } %>
-          </tbody>
-        </table>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <p class="py-3">
+          This is the content of <code class="bg-gray-200">req.user</code>.<br>
+          <strong>Note:</strong> <code class="bg-gray-200">_raw</code> and <code class="bg-gray-200">_json</code>
+          properties have been omitted.
+        </p>
+
+        <pre class="block bg-gray-300 p-4 text-sm overflow-scroll"><%= userProfile %></pre>
+        <br />
+        <hr />
       </div>
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-      <script>
-        const addFactor = async function (factor) {
-          try {
-            //$('body').append('<div style="" id="loadingDiv"><div class="loader">Loading...</div></div>');
-            var url = `/factor/add/${factor}`;
-            const response = await fetch(url);
-            const enrollment = await response.json();
-            var win = window.open(enrollment.ticket_url, 'MFA Enrollment', 'width=400,height=650');
-            var timer = setInterval(function () {
-              if (win.closed) {
-                clearInterval(timer);
-                location.reload();
-              }
-            }, 1000);
-          } catch (e) {
-            console.error(e);
-          }
-        }
-        const regerateRecoveryCode = async function (id) {
-          try {
-            var url = `/factor/recovery-code`;
-            const response = await fetch(url);
-            const { recovery_code } = await response.json();
-            alert(`Please copy your new Recovery Code securely ${recovery_code}`);
-          } catch (e) {
-            console.error(e);
-          }
-        }
-        const deleteFactor = async function (id) {
-          try {
-            var url = `/factor/delete/${id}`;
-            const response = await fetch(url);
-            const deleteEnrollment = await response.json();
+    </div>
+  </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script>
+    const addFactor = async function (factor) {
+      try {
+        //$('body').append('<div style="" id="loadingDiv"><div class="loader">Loading...</div></div>');
+        var url = `/factor/add/${factor}`;
+        const response = await fetch(url);
+        const enrollment = await response.json();
+        var win = window.open(enrollment.ticket_url, 'MFA Enrollment', 'width=400,height=650');
+        var timer = setInterval(function () {
+          if (win.closed) {
+            clearInterval(timer);
             location.reload();
-          } catch (e) {
-            console.error(e);
           }
-        }
-        function removeLoader() {
-          $("#loadingDiv").fadeOut(500, function () {
-            // fadeOut complete. Remove the loading div
-            $("#loadingDiv").remove(); //makes page more lightweight 
-          });
-        }
-      </script>
-      <%- include('partials/footer') -%>
+        }, 1000);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    const regerateRecoveryCode = async function (id) {
+      try {
+        var url = `/factor/recovery-code`;
+        const response = await fetch(url);
+        const { recovery_code } = await response.json();
+        alert(`Please copy your new Recovery Code securely ${recovery_code}`);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    const deleteFactor = async function (id) {
+      try {
+        var url = `/factor/delete/${id}`;
+        const response = await fetch(url);
+        const deleteEnrollment = await response.json();
+        location.reload();
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    function removeLoader() {
+      $("#loadingDiv").fadeOut(500, function () {
+        // fadeOut complete. Remove the loading div
+        $("#loadingDiv").remove(); //makes page more lightweight 
+      });
+    }
+  </script>
+  <%- include('partials/footer') -%>
