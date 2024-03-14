@@ -1,27 +1,26 @@
 var router = require('express').Router();
 var _ = require('lodash');
 const { requiresAuth } = require('express-openid-connect');
-const mfaHelper = require('../lib/auth0.mfa.service');
+const mfaHelper = require('../lib/auth0.service');
 const allowedMfaFactor = require('../utils/allowed-mfa-factors');
 
 
 router.get('/', function (req, res, next) {
-  res.render('index', {
-    title: 'My Profile',
-    isAuthenticated: req.oidc.isAuthenticated()
-  });
+  res.redirect('/profile');
 });
 
 router.get('/profile', requiresAuth(), async function (req, res, next) {
   try {
     console.log(req.oidc.user?.sub);
+    const userInfo = await req.oidc.fetchUserInfo();
     const factors = await mfaHelper.getFactorsForTenant();
     console.log(factors);
     const authenticators = await mfaHelper.getAuthenticatorsForUser(req.oidc.user?.sub);
     var allwedFactorList = _.merge(_.keyBy(factors, 'name'), _.keyBy(allowedMfaFactor, 'name'));
     var factorList = _.values(allwedFactorList);
-    let merged = [];
+    let merged = [], showMfaWarning = false;
     if (authenticators.length > 0) {
+      showMfaWarning = (authenticators.length === 1 && authenticators[0].type === "email");
       for (let i = 0; i < factorList.length; i++) {
         merged.push({
           ...factorList[i],
@@ -30,15 +29,68 @@ router.get('/profile', requiresAuth(), async function (req, res, next) {
       }
     } else {
       merged = factorList;
+      showMfaWarning = true;
     }
-    console.log(`Authenticators ${JSON.stringify(authenticators)}`);
+    // console.log(`Authenticators ${JSON.stringify(authenticators)}`);
     res.render('profile', {
-      userProfile: JSON.stringify(req.oidc.user, null, 2),
+      userProfile: JSON.stringify(userInfo, null, 2),
+      userInfo,
       allowedMfaFactor: merged,
       authenticators,
-      title: 'Profile page'
+      showMfaWarning,
+      title: 'My Profile'
     });
   } catch (err) {
+    res.render('error', {
+      message: err.message,
+      error: err
+    });
+  }
+});
+
+router.get('/account/change_email', requiresAuth(), async function (req, res) {
+  try {
+    console.log(req.oidc.user?.sub, req.params.type);
+    return res.oidc.login({
+      returnTo: '/profile',
+      authorizationParams: {
+        redirect_uri: 'http://localhost:3000/callback',
+        action: 'change_email'
+      },
+    });
+  } catch (err) {
+    res.render('error', {
+      message: err.message,
+      error: err
+    });
+  }
+});
+
+router.get('/account/change_password', requiresAuth(), async function (req, res) {
+  try {
+    console.log(req.oidc.user?.sub, req.path);
+    const data = await mfaHelper.generatePasswordChangeTicket(req.oidc.user?.sub, process.env.CLIENT_ID, 'http://localhost:3000/logout');
+    console.log(data);
+    res.redirect(data.ticket);
+  } catch (err) {
+    console.log(err);
+    res.render('error', {
+      message: err.message,
+      error: err
+    });
+  }
+});
+
+router.post('/account/update', requiresAuth(), async function (req, res) {
+  try {
+    console.log(req.oidc.user?.sub, req.body);
+    const {given_name, family_name, nickname} = req.body;
+    console.log(given_name, family_name, nickname);
+    let name = given_name.concat(" ", family_name);
+    await mfaHelper.updateUser(req.oidc.user?.sub, {name, family_name, given_name, nickname});
+    res.redirect('/profile');
+  } catch (err) {
+    console.log(err);
     res.render('error', {
       message: err.message,
       error: err
