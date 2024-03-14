@@ -50,17 +50,27 @@ npm start
 The sample app will be served at `localhost:3000`.
 
 ## Features
+
 - Update name, given_name, given_name, nickname, profile
 - Change Email
 - Change Password
 - Manage MFA Factors
 
+## Auth0 Post Login Actions
+
+- [Progressive Factor Enrolment](https://gist.github.com/vikasjayaram/aeeb74676d4abb7af9b5e570010e7bbb)
+- [Change Email](https://gist.github.com/vikasjayaram/1b167ac2de3dd17911539b2dc073ef3a)
+
+## Auth0 Password Reset / Post Challenge Action
+
+- [Password Reset Challenge](https://gist.github.com/vikasjayaram/d0ad252fe7c64659acd4fda94e1afaf5)
+
 ## TODO
 
-[] Add post login actions to support progressive mfa enrolment 
-[] Add post login action for change email flow
-[] Add password reset / post challenge action to challenge for MFA before resetting the password.
-
+- [X] Add post login actions to support progressive mfa enrolment 
+- [X] Add post login action for change email flow
+- [X] Add password reset / post challenge action to challenge for MFA before resetting the password.
+- [ ] Add Session Management Section.
 ## Support + Feedback
 
 Please use the [Issues queue](https://github.com/vikasjayaram/auth0-use-cases/issues) in this repo for questions and feedback.
