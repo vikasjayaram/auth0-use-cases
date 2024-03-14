@@ -3,7 +3,7 @@ const ManagementClient = require("auth0").ManagementClient;
 // Set up Auth0 configuration
 const authConfig = {
     domain: process.env.DOMAIN,
-    audience: `https://${process.env.CANONICA_DOMAIN}/api/v2/`,
+    audience: `https://${process.env.CANONICAL_DOMAIN}/api/v2/`,
     clientId: process.env.CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET
 };

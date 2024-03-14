@@ -21,7 +21,7 @@ npm install
 - `ISSUER_BASE_URL` - absolute URL to your Auth0 application domain (ie: `https://accountName.auth0.com`)
 - `SECRET` - a randomly rengerated string. You can generate one on the command line with the following `openssl rand -hex 32`
 - `DOMAIN` - your Auth0 Custom Domain
-- `CANONICA_DOMAIN` - your Auth0 domain
+- `CANONICAL_DOMAIN` - your Auth0 domain
 - `CLIENT_SECRET` - your Auth0 Machine To Machine `client_secret` authorized to access the management api
 
 ```bash
