@@ -16,10 +16,14 @@ app.set('view engine', 'ejs');
 app.use(logger('dev'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
+app.use(express.urlencoded({extended: false}));
 
 const config = {
   authRequired: false,
-  auth0Logout: true
+  auth0Logout: true,
+  authorizationParams: {
+    response_type: 'code id_token',
+  }
 };
 
 const port = process.env.PORT || 3000;
